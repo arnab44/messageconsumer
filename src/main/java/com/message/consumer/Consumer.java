@@ -5,6 +5,8 @@ import com.tcpmanager.Message.Message;
 
 import java.io.*;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Consumer {
 
@@ -13,7 +15,7 @@ public class Consumer {
     private BrokerClient brokerClient;
     private ObjectOutputStream os;
     private static final String BROKER_IP = "127.0.0.1";
-    private static final int BROKER_PORT = 6000;
+    private static final int BROKER_PORT = 4000;
     public Consumer(String path, int consumerID) {
         this.path = path;
         this.consumerID = consumerID;
@@ -43,6 +45,8 @@ public class Consumer {
         while(moreMessage) {
             try {
                 Message message = (Message)is.readObject();
+               // System.out.println("------");
+               // System.out.println(message.getHeader().getFileName());
                 if(message.getHeader().getSize() < 0) {
                     moreMessage = false;
                     break;
@@ -53,6 +57,7 @@ public class Consumer {
                 System.out.println(ex.toString());
             }
         }
+        System.out.println( new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
 
     }
 
