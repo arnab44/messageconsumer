@@ -11,9 +11,9 @@ import java.util.Queue;
 @Getter
 @Setter
 @Builder
-@Singleton
+//@Singleton
 public class LocalBuffer {
-
+    public static int numberOfBuffers = 5;
     Queue<Message> q;
     Long size ;
     private static final Long MAX_SIZE = Long.valueOf(2L*1024L*1024L*1024L);
@@ -40,8 +40,12 @@ public class LocalBuffer {
         }
     }
 
-    public  Message poll(){
+    public synchronized Message poll(){
         Message m =  this.getQ().poll();
+        if(m == null){
+            System.out.println("message is null");
+        }
+        size = size - m.getHeader().getSize();
         return  m;
     }
 

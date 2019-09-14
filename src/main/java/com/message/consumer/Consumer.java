@@ -6,7 +6,10 @@ import com.tcpmanager.Message.Message;
 import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Consumer {
 
@@ -14,15 +17,29 @@ public class Consumer {
     int consumerID;
     private BrokerClient brokerClient;
     private ObjectOutputStream os;
-    private static final String BROKER_IP = "127.0.0.1";
-    private static final int BROKER_PORT = 4000;
-    public Consumer(String path, int consumerID) {
+    private List<LocalBuffer> lb;
+  //  private List<Thread> fp;
+    private static final int NUM_FILEPROCESSORS = 10;
+    public Consumer(String path, int consumerID, LocalBuffer lb) {
         this.path = path;
         this.consumerID = consumerID;
+        this.lb = new ArrayList<LocalBuffer>();
+        for (int i = 0; i < LocalBuffer.numberOfBuffers; i++){
+            this.lb.add(new LocalBuffer( new ConcurrentLinkedQueue<Message>(), 0L));
+        }
         this.brokerClient = BrokerClient.getBrokerClient();
         this.brokerClient.setListenPort(BROKER_PORT);
         this.brokerClient.setListenUrl(BROKER_IP);
+
+
+        for(int i = 0 ; i< NUM_FILEPROCESSORS; i++) {
+            Thread fileProcessor = new Thread(new FileProcessor(this.lb.get(i % LocalBuffer.numberOfBuffers), path));
+        //    fp.add(fileProcessor);
+            fileProcessor.start();
+        }
     }
+    private static final String BROKER_IP = "127.0.0.1";
+    private static final int BROKER_PORT = 4000;
 
     public void connectServer() {
         try {
@@ -40,39 +57,27 @@ public class Consumer {
     }
 
     public void receiveMessage(ObjectInputStream is) {
-
         boolean moreMessage = true;
+        int counter = 0;
         while(moreMessage) {
             try {
                 Message message = (Message)is.readObject();
+                if(counter==0) {
+                    System.out.println("Consumer started at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
+                }
                // System.out.println("------");
                // System.out.println(message.getHeader().getFileName());
-                if(message.getHeader().getSize() < 0) {
-                    moreMessage = false;
-                    break;
-                }
-                storeMessage(message);
+
+                lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
+                //storeMessage(message);
+                counter = counter + 1;
             }
             catch (Exception ex) {
                 System.out.println(ex.toString());
             }
         }
-        System.out.println( new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
+        System.out.println("Consumer finished at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
 
     }
 
-    public void storeMessage(Message message) {
-        String fileName = message.getHeader().getFileName();
-        String fileFullPath = path+"/"+fileName;
-        File file = new File(fileFullPath);
-        try {
-            FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter writer = new BufferedWriter(fileWriter);
-            writer.write(message.getPayLoad());
-            writer.close();
-        }
-        catch(IOException ex) {
-            System.out.println(ex.toString());
-        }
-    }
 }
