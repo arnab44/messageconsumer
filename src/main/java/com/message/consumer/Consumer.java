@@ -38,7 +38,7 @@ public class Consumer {
             fileProcessor.start();
         }
     }
-    private static final String BROKER_IP = "127.0.0.1";
+    private static final String BROKER_IP = "35.175.127.44";
     private static final int BROKER_PORT = 4000;
 
     public void connectServer() {
