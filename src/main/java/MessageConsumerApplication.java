@@ -9,7 +9,7 @@ public class MessageConsumerApplication {
         System.out.println("heap memory allocated" + Runtime.getRuntime().maxMemory()/1024/1024 + "MB");
         //String path = args[0];
 
-        String path ="/home/ec2-user//sampleData3" ;
+        String path ="/home/ec2-user/sampleData3" ;
         Random random = new Random();
 
         Consumer consumer = new Consumer(path,random.nextInt(), null);
