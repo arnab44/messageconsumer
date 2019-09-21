@@ -1,12 +1,18 @@
 package com.message.consumer;
 
 
+import com.google.common.base.Stopwatch;
 import com.tcpmanager.Message.Message;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class FileProcessor implements Runnable {
 
@@ -43,15 +49,23 @@ public class FileProcessor implements Runnable {
 
                 try {
 
+                    Stopwatch sw = new Stopwatch();
+                    sw.start();
 
-                    FileOutputStream fos = new FileOutputStream(file);
-                 //   FileChannel fileChannel = fos.getChannel();
+                   /* FileOutputStream fos = new FileOutputStream(file);
 
                     fos.write(message.getPayLoad().getBytes());
-//                    fos.flush();
-                    fos.close();
+                    fos.close();*/
+
+
+                    Files.write(Paths.get(file.toURI()),
+                            message.getPayLoad().getBytes("utf-8"),
+                            StandardOpenOption.CREATE,
+                            StandardOpenOption.TRUNCATE_EXISTING);
+                    sw.stop();
+                    System.out.println(message.getHeader().getSize()+" "+sw.elapsed(TimeUnit.MILLISECONDS));
 //                    FileWriter fileWriter = new FileWriter(file);
-                  //  fileWriter.write(message.getPayLoad().getBytes());
+                    //  fileWriter.write(message.getPayLoad().getBytes());
 
 //                    BufferedWriter writer = new BufferedWriter(fileWriter);
 //                    writer.write(message.getPayLoad());
