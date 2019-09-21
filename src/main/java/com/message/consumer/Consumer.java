@@ -38,16 +38,21 @@ public class Consumer {
             fileProcessor.start();
         }
     }
-    private static final String BROKER_IP = "35.175.127.44";
+    private static String BROKER_IP = "127.0.0.1";
     private static final int BROKER_PORT = 4000;
 
     public void connectServer() {
         try {
+            if(System.getProperty("brokerIp")!=null) {
+                BROKER_IP = System.getProperty("brokerIp");
+
+            }
             Socket socket = new Socket(BROKER_IP, BROKER_PORT);
             DataOutputStream os = new DataOutputStream(socket.getOutputStream());
             ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
             os.writeUTF("hello");
             os.flush();
+            System.out.println("Connected broker at"+ BROKER_IP);
             receiveMessage(is);
 
         }
