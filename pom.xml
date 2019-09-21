@@ -42,11 +42,11 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
     </descriptorRefs>
-	                                            <archive>
-                                                <manifest>
-                                                        <mainClass>MessageConsumerApplication</mainClass>
-                                                </manifest>
-                                        </archive>
+                <archive>
+                <manifest>
+                        <mainClass>MessageConsumerApplication</mainClass>
+                </manifest>
+        </archive>
         </configuration>
       </plugin>
 		<plugin>
