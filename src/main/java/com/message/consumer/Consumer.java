@@ -74,7 +74,7 @@ public class Consumer {
                // System.out.println(message.getHeader().getFileName());
 
                 lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
-                //storeMessage(message);
+
                 counter = counter + 1;
             }
             catch (Exception ex) {

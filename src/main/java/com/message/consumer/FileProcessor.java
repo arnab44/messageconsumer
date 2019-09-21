@@ -47,8 +47,8 @@ public class FileProcessor implements Runnable {
 
                 try {
 
-                    Stopwatch sw = new Stopwatch();
-                    sw.start();
+                 //   Stopwatch sw = new Stopwatch();
+                   // sw.start();
 
                    /* FileOutputStream fos = new FileOutputStream(file);
 
@@ -60,8 +60,8 @@ public class FileProcessor implements Runnable {
                             message.getPayLoad().getBytes("utf-8"),
                             StandardOpenOption.CREATE,
                             StandardOpenOption.TRUNCATE_EXISTING);
-                    sw.stop();
-                    System.out.println(message.getHeader().getSize()+" "+sw.elapsed(TimeUnit.MILLISECONDS));
+                  //  sw.stop();
+                   // System.out.println(message.getHeader().getSize()+" "+sw.elapsed(TimeUnit.MILLISECONDS));
 //                    FileWriter fileWriter = new FileWriter(file);
                     //  fileWriter.write(message.getPayLoad().getBytes());
 
