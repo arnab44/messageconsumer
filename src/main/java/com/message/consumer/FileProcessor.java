@@ -55,7 +55,7 @@ public class FileProcessor implements Runnable {
                     fos.write(message.getPayLoad().getBytes());
                     fos.close();*/
 
-
+                    System.out.println("writing "+ fileName);
                     Files.write(Paths.get(file.toURI()),
                             message.getPayLoad().getBytes("utf-8"),
                             StandardOpenOption.CREATE,

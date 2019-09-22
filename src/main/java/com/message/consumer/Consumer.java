@@ -19,7 +19,7 @@ public class Consumer {
     private ObjectOutputStream os;
     private List<LocalBuffer> lb;
   //  private List<Thread> fp;
-    private static final int NUM_FILEPROCESSORS = 10;
+    private static final int NUM_FILEPROCESSORS = 50;
     public Consumer(String path, int consumerID, LocalBuffer lb) {
         this.path = path;
         this.consumerID = consumerID;
@@ -38,7 +38,8 @@ public class Consumer {
             fileProcessor.start();
         }
     }
-    private static String BROKER_IP = "127.0.0.1";
+  //  private static String BROKER_IP = "35.170.70.10";
+  private static String BROKER_IP = "127.0.0.1";
     private static final int BROKER_PORT = 4000;
 
     public void connectServer() {
@@ -67,6 +68,7 @@ public class Consumer {
         while(moreMessage) {
             try {
                 Message message = (Message)is.readObject();
+              //  System.out.println("received "+ message.getHeader().getFileName());
                 if(counter==0) {
                     System.out.println("Consumer started at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
                 }
