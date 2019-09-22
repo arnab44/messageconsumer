@@ -36,11 +36,11 @@ public class FileProcessor implements Runnable {
         while(moreMessage) {
             if (!lb.getQ().isEmpty()) {
                message = (Message) lb.poll();
-                if(message == null) {
+                if(message == null || message.getHeader().getSize()==-2) {
                     System.out.println("null msg at fileprocessor");
                     continue;
                 }
-                if(message.getHeader().getSize() < 0) {
+                if(message.getHeader().getSize() == -1) {
                     moreMessage = false;
                     break;
                 }

@@ -2,6 +2,7 @@ package com.message.consumer;
 
 
 import com.google.inject.Singleton;
+import com.tcpmanager.Message.Header;
 import com.tcpmanager.Message.Message;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +45,7 @@ public class LocalBuffer {
         Message m =  this.getQ().poll();
         if(m == null){
             System.out.println("message is null");
+            m= Message.builder().header(Header.builder().size(-2).build()).build();
         }
         size = size - m.getHeader().getSize();
         return  m;

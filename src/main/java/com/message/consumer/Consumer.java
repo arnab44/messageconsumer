@@ -75,9 +75,9 @@ public class Consumer {
                 }
                // System.out.println("------");
                // System.out.println(message.getHeader().getFileName());
-             //  if(message!=null) {
+               if(message!=null) {
                    lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
-               //}
+               }
                //else {
                  //  System.out.println("received null msg \n\n\n\n\n\n\n");
                //}
