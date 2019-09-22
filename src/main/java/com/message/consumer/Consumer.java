@@ -83,7 +83,7 @@ public class Consumer {
                // System.gc();
             }
             catch (Exception ex) {
-                System.out.println(ex.toString());
+                System.out.println("Exception while receiving message "+ex.toString());
             }
         }
         System.out.println("Consumer finished at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
