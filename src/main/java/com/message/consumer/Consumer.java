@@ -19,7 +19,7 @@ public class Consumer {
     private ObjectOutputStream os;
     private List<LocalBuffer> lb;
   //  private List<Thread> fp;
-    private static final int NUM_FILEPROCESSORS = 12;
+    private static final int NUM_FILEPROCESSORS = 15;
     public Consumer(String path, int consumerID, LocalBuffer lb) {
         this.path = path;
         this.consumerID = consumerID;
@@ -65,22 +65,22 @@ public class Consumer {
     public void receiveMessage(ObjectInputStream is) {
         boolean moreMessage = true;
         int counter = 0;
-        Message message = null;
+       Message message = null;
         while(moreMessage) {
             try {
-               message = (Message)is.readObject();
-              //  System.out.println("received "+ message.getHeader().getFileName());
+                message = (Message)is.readObject();
+               // System.out.println("received "+ message.getHeader().getFileName());
                 if(counter==0) {
                     System.out.println("Consumer started at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
                 }
                // System.out.println("------");
                // System.out.println(message.getHeader().getFileName());
-               if(message!=null) {
+             //  if(message!=null) {
                    lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
-               }
-               else {
-                   System.out.println("null");
-               }
+               //}
+               //else {
+                 //  System.out.println("received null msg \n\n\n\n\n\n\n");
+               //}
 
                 counter = counter + 1;
                // System.gc();

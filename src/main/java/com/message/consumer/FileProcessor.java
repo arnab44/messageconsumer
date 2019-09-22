@@ -32,14 +32,14 @@ public class FileProcessor implements Runnable {
       public void processFile() {
 
       //  boolean moreMessage = true;
-          Message message = null;
+       Message message;
         while(moreMessage) {
             if (!lb.getQ().isEmpty()) {
+               message = (Message) lb.poll();
                 if(message == null) {
                     System.out.println("null msg at fileprocessor");
                     continue;
                 }
-                message = (Message) lb.poll();
                 if(message.getHeader().getSize() < 0) {
                     moreMessage = false;
                     break;
@@ -58,7 +58,7 @@ public class FileProcessor implements Runnable {
                     fos.write(message.getPayLoad().getBytes());
                     fos.close();*/
 
-                    System.out.println("writing "+ fileName);
+//                    System.out.println("writing "+ fileName);
                     Files.write(Paths.get(file.toURI()),
                             message.getPayLoad().getBytes("utf-8"),
                             StandardOpenOption.CREATE,
