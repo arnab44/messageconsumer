@@ -57,13 +57,13 @@ public class FileProcessor implements Runnable {
                     fos.write(message.getPayLoad().getBytes());
                     fos.close();*/
 
-                 //   System.out.println("writing "+ fileName);
+                    System.out.println("writing "+ fileName);
                     Files.write(Paths.get(file.toURI()),
                             message.getPayLoad().getBytes("utf-8"),
                             StandardOpenOption.CREATE,
                             StandardOpenOption.TRUNCATE_EXISTING);
                   //  sw.stop();
-                   // System.out.println(message.getHeader().getSize()+" "+sw.elapsed(TimeUnit.MILLISECONDS));
+                    //ystem.out.println(message.getHeader().getSize()+" "+sw.elapsed(TimeUnit.MILLISECONDS));
 //                    FileWriter fileWriter = new FileWriter(file);
                     //  fileWriter.write(message.getPayLoad().getBytes());
 
