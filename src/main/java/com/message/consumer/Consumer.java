@@ -65,9 +65,10 @@ public class Consumer {
     public void receiveMessage(ObjectInputStream is) {
         boolean moreMessage = true;
         int counter = 0;
+        Message message = null;
         while(moreMessage) {
             try {
-                Message message = (Message)is.readObject();
+               message = (Message)is.readObject();
               //  System.out.println("received "+ message.getHeader().getFileName());
                 if(counter==0) {
                     System.out.println("Consumer started at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
@@ -78,6 +79,8 @@ public class Consumer {
                 lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
 
                 counter = counter + 1;
+                message = null;
+                System.gc();
             }
             catch (Exception ex) {
                 System.out.println(ex.toString());
