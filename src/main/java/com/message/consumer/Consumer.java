@@ -19,7 +19,7 @@ public class Consumer {
     private ObjectOutputStream os;
     private List<LocalBuffer> lb;
   //  private List<Thread> fp;
-    private static final int NUM_FILEPROCESSORS = 50;
+    private static final int NUM_FILEPROCESSORS = 12;
     public Consumer(String path, int consumerID, LocalBuffer lb) {
         this.path = path;
         this.consumerID = consumerID;
@@ -79,8 +79,8 @@ public class Consumer {
                 lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
 
                 counter = counter + 1;
-                message = null;
-                System.gc();
+               // message = null;
+               // System.gc();
             }
             catch (Exception ex) {
                 System.out.println(ex.toString());
