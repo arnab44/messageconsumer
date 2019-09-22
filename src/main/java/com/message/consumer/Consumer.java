@@ -75,11 +75,11 @@ public class Consumer {
                 }
                // System.out.println("------");
                // System.out.println(message.getHeader().getFileName());
-
-                lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
+               if(message!=null) {
+                   lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
+               }
 
                 counter = counter + 1;
-               // message = null;
                // System.gc();
             }
             catch (Exception ex) {

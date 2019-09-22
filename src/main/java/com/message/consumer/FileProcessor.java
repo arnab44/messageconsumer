@@ -32,11 +32,13 @@ public class FileProcessor implements Runnable {
       public void processFile() {
 
       //  boolean moreMessage = true;
-
+          Message message = null;
         while(moreMessage) {
             if (!lb.getQ().isEmpty()) {
-
-                Message message = (Message) lb.poll();
+                if(message == null) {
+                    continue;
+                }
+                message = (Message) lb.poll();
                 if(message.getHeader().getSize() < 0) {
                     moreMessage = false;
                     break;
@@ -70,7 +72,7 @@ public class FileProcessor implements Runnable {
                     //writer.close();
 //                    fileWriter.close();
                 } catch (IOException ex) {
-                    System.out.println(ex.toString());
+                    System.out.println("Exception while receive msg from local buffer "+ ex.toString());
                 }
             }
         }
