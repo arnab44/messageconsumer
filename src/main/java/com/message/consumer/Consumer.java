@@ -78,6 +78,9 @@ public class Consumer {
                if(message!=null) {
                    lb.get(counter % LocalBuffer.numberOfBuffers).push(message);
                }
+               else {
+                   System.out.println("null");
+               }
 
                 counter = counter + 1;
                // System.gc();
